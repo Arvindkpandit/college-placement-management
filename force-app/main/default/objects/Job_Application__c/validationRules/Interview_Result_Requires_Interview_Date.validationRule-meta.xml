@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interview_Result_Requires_Interview_Date</fullName>
+    <active>true</active>
+    <description>Please enter the interview date before updating the interview result.</description>
+    <errorConditionFormula>AND(
+    ISBLANK(Interview_Date__c),
+    OR(
+        ISPICKVAL(Interview_Result__c, &quot;Selected&quot;),
+        ISPICKVAL(Interview_Result__c, &quot;Rejected&quot;)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Interview_Result__c</errorDisplayField>
+    <errorMessage>Please enter the interview date before updating the interview result.</errorMessage>
+</ValidationRule>

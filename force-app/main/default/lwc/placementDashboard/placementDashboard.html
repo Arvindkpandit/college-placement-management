@@ -1,0 +1,547 @@
+<template>
+
+    <lightning-card
+        title="Student Placement Dashboard"
+        icon-name="standard:student">
+
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="spinner-container">
+                <lightning-spinner
+                    alternative-text="Loading dashboard data..."
+                    size="medium">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <div class="dashboard-container">
+
+            <!-- Student Selection -->
+            <lightning-combobox
+                name="student"
+                label="Select Student"
+                value={selectedStudentId}
+                placeholder="Select a Student"
+                options={students}
+                onchange={handleStudentChange}>
+            </lightning-combobox>
+
+            <!-- Dashboard Buttons -->
+            <div class="slds-m-top_small">
+
+                <lightning-button
+                    label="Refresh Dashboard"
+                    icon-name="utility:refresh"
+                    onclick={handleRefresh}
+                    disabled={isLoading}>
+                </lightning-button>
+
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Reset Dashboard"
+                    icon-name="utility:clear"
+                    variant="neutral"
+                    onclick={handleResetDashboard}
+                    disabled={isLoading}>
+                </lightning-button>
+
+            </div>
+
+            <!-- Welcome / Empty State -->
+            <template if:false={selectedStudentId}>
+
+                <div class="slds-text-align_center slds-p-around_x-large">
+
+                    <lightning-icon
+                        icon-name="standard:student"
+                        alternative-text="Student"
+                        size="large">
+                    </lightning-icon>
+
+                    <h2 class="slds-text-heading_large slds-m-top_medium">
+                        Welcome to the Student Placement Dashboard
+                    </h2>
+
+                    <p class="slds-text-body_regular slds-m-top_small">
+                        Select a student above to view placement statistics,
+                        eligibility details, and job applications.
+                    </p>
+
+                </div>
+
+            </template>
+
+            <!-- Dashboard Content -->
+            <template if:true={selectedStudentId}>
+
+                <!-- Student Information Heading -->
+                <div class="slds-grid slds-grid_vertical-align-center slds-m-top_medium slds-m-bottom_small">
+
+                    <lightning-icon
+                        icon-name="utility:user"
+                        alternative-text="Student Information"
+                        size="small">
+                    </lightning-icon>
+
+                    <h2 class="slds-text-heading_medium slds-m-left_small">
+                        Student Information
+                    </h2>
+
+                </div>
+
+                <!-- Student Information Content -->
+                <div class="student-info">
+
+                    <div class="student-details">
+
+                        <!-- Name -->
+                        <div class="detail-card">
+
+                            <lightning-icon
+                                icon-name="utility:user"
+                                alternative-text="Name"
+                                size="small">
+                            </lightning-icon>
+
+                            <div class="detail-content">
+                                <div class="detail-label">Student Name</div>
+                                <div class="detail-value">{studentName}</div>
+                            </div>
+
+                        </div>
+
+                        <!-- CGPA -->
+                        <div class="detail-card">
+
+                            <lightning-icon
+                                icon-name="utility:education"
+                                alternative-text="CGPA"
+                                size="small">
+                            </lightning-icon>
+
+                            <div class="detail-content">
+                                <div class="detail-label">CGPA</div>
+                                <div class="detail-value">{studentCGPA}</div>
+                            </div>
+
+                        </div>
+
+                        <!-- Branch -->
+                        <div class="detail-card">
+
+                            <lightning-icon
+                                icon-name="utility:knowledge_base"
+                                alternative-text="Branch"
+                                size="small">
+                            </lightning-icon>
+
+                            <div class="detail-content">
+                                <div class="detail-label">Branch</div>
+                                <div class="detail-value">{studentBranch}</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Placement Statistics Heading -->
+                <div class="slds-grid slds-grid_vertical-align-center slds-m-top_medium slds-m-bottom_small">
+
+                    <lightning-icon
+                        icon-name="utility:chart"
+                        alternative-text="Placement Statistics"
+                        size="small">
+                    </lightning-icon>
+
+                    <h2 class="slds-text-heading_medium slds-m-left_small">
+                        Placement Statistics
+                    </h2>
+
+                </div>
+
+                <!-- Statistics -->
+                <div class="stats-container">
+
+                    <!-- Total Applications -->
+                    <div class="stat-card total-card">
+
+                        <lightning-icon
+                            icon-name="utility:description"
+                            alternative-text="Total Applications"
+                            size="small">
+                        </lightning-icon>
+
+                        <div class="stat-number">
+                            {totalApplications}
+                        </div>
+
+                        <div class="stat-label">
+                            Total Applications
+                        </div>
+
+                    </div>
+
+                    <!-- Eligible Applications -->
+                    <div class="stat-card eligible-card">
+
+                        <lightning-icon
+                            icon-name="utility:success"
+                            alternative-text="Eligible"
+                            size="small">
+                        </lightning-icon>
+
+                        <div class="stat-number">
+                            {eligibleApplications}
+                        </div>
+
+                        <div class="stat-label">
+                            Eligible
+                        </div>
+
+                    </div>
+
+                    <!-- Selected Applications -->
+                    <div class="stat-card selected-card">
+
+                        <lightning-icon
+                            icon-name="utility:check"
+                            alternative-text="Selected"
+                            size="small">
+                        </lightning-icon>
+
+                        <div class="stat-number">
+                            {selectedApplications}
+                        </div>
+
+                        <div class="stat-label">
+                            Selected
+                        </div>
+
+                    </div>
+
+                    <!-- Rejected Applications -->
+                    <div class="stat-card rejected-card">
+
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="Rejected"
+                            size="small">
+                        </lightning-icon>
+
+                        <div class="stat-number">
+                            {rejectedApplications}
+                        </div>
+
+                        <div class="stat-label">
+                            Rejected
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Placement Analytics Heading -->
+                <div class="slds-grid slds-grid_vertical-align-center slds-m-top_large slds-m-bottom_medium">
+
+                    <lightning-icon
+                        icon-name="utility:chart"
+                        alternative-text="Placement Analytics"
+                        size="small">
+                    </lightning-icon>
+
+                    <h2 class="slds-text-heading_medium slds-m-left_small">
+                        Placement Analytics
+                    </h2>
+
+                </div>
+
+                <!-- Placement Analytics -->
+                <div class="analytics-container">
+
+                    <!-- Eligible Percentage -->
+                    <div class="analytics-item">
+
+                        <div class="analytics-header">
+                            <span>Eligibility Rate</span>
+                            <strong>{eligiblePercentage}%</strong>
+                        </div>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill eligible-progress"
+                                style={eligibleProgressStyle}>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Selected Percentage -->
+                    <div class="analytics-item">
+
+                        <div class="analytics-header">
+                            <span>Selection Rate</span>
+                            <strong>{selectedPercentage}%</strong>
+                        </div>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill selected-progress"
+                                style={selectedProgressStyle}>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Rejected Percentage -->
+                    <div class="analytics-item">
+
+                        <div class="analytics-header">
+                            <span>Rejection Rate</span>
+                            <strong>{rejectedPercentage}%</strong>
+                        </div>
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill rejected-progress"
+                                style={rejectedProgressStyle}>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Job Applications Section -->
+                <div class="applications-section">
+
+                    <!-- Job Applications Heading -->
+                    <div class="slds-grid slds-grid_vertical-align-center slds-m-top_large slds-m-bottom_medium">
+
+                        <lightning-icon
+                            icon-name="standard:job_position"
+                            alternative-text="Job Applications"
+                            size="small">
+                        </lightning-icon>
+
+                        <h2 class="slds-text-heading_medium slds-m-left_small">
+                            Job Application Details
+                        </h2>
+
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="slds-m-bottom_medium">
+                        <lightning-input
+                            type="search"
+                            label="Search Job Applications"
+                            placeholder="Search by Job, Status, Eligibility or Result"
+                            value={searchKey}
+                            onchange={handleSearch}>
+                        </lightning-input>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-combobox
+                                name="applicationStatus"
+                                label="Application Status"
+                                value={selectedApplicationStatus}
+                                options={applicationStatusOptions}
+                                onchange={handleApplicationStatusChange}>
+                            </lightning-combobox>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-combobox
+                                name="eligibilityStatus"
+                                label="Eligibility Status"
+                                value={selectedEligibilityStatus}
+                                options={eligibilityStatusOptions}
+                                onchange={handleEligibilityStatusChange}>
+                            </lightning-combobox>
+                        </div>
+
+                    </div>
+
+                    <!-- Filter Actions -->
+                    <div class="slds-m-bottom_medium">
+
+                        <lightning-button
+                            label="Clear Filters"
+                            icon-name="utility:clear"
+                            variant="neutral"
+                            onclick={handleClearFilters}>
+                        </lightning-button>
+
+                        <lightning-button
+                            class="slds-m-left_small"
+                            label="Export to CSV"
+                            icon-name="utility:download"
+                            variant="brand"
+                            onclick={handleExportCSV}>
+                        </lightning-button>
+
+                    </div>
+
+                    <!-- Records Per Page -->
+                    <div class="slds-grid slds-wrap slds-grid_vertical-align-end slds-m-bottom_small">
+
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+
+                            <lightning-combobox
+                                name="pageSize"
+                                label="Records Per Page"
+                                value={pageSize}
+                                options={pageSizeOptions}
+                                onchange={handlePageSizeChange}>
+                            </lightning-combobox>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Dynamic Application Count -->
+                    <div class="slds-m-bottom_small slds-text-title_bold">
+                        {applicationCountMessage}
+                    </div>
+
+                    <!-- Applications Table -->
+                    <template if:false={noApplicationsFound}>
+
+                        <lightning-datatable
+                            key-field="Id"
+                            data={paginatedApplications}
+                            columns={columns}
+                            hide-checkbox-column
+                            sorted-by={sortedBy}
+                            sorted-direction={sortedDirection}
+                            onsort={handleSort}
+                            onrowaction={handleRowAction}>
+                        </lightning-datatable>
+
+                        <!-- Pagination -->
+                        <div class="slds-grid slds-grid_align-center slds-grid_vertical-align-center slds-m-top_medium">
+
+                            <lightning-button
+                                label="Previous"
+                                icon-name="utility:chevronleft"
+                                onclick={handlePrevious}
+                                disabled={isPreviousDisabled}>
+                            </lightning-button>
+
+                            <div class="slds-m-horizontal_medium slds-text-title_bold">
+                                {pageInfo}
+                            </div>
+
+                            <lightning-button
+                                label="Next"
+                                icon-name="utility:chevronright"
+                                icon-position="right"
+                                onclick={handleNext}
+                                disabled={isNextDisabled}>
+                            </lightning-button>
+
+                        </div>
+
+                    </template>
+
+                    <!-- No Records Message -->
+                    <template if:true={noApplicationsFound}>
+
+                        <div class="slds-text-align_center slds-p-around_large">
+
+                            <lightning-icon
+                                icon-name="utility:search"
+                                alternative-text="No records"
+                                size="medium">
+                            </lightning-icon>
+
+                            <h2 class="slds-text-heading_medium slds-m-top_small">
+                                No Job Applications Found
+                            </h2>
+
+                            <p class="slds-text-body_regular slds-m-top_small">
+                                Try changing your search text or filters.
+                            </p>
+
+                        </div>
+
+                    </template>
+
+                </div>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+    <!-- Reset Dashboard Confirmation Modal -->
+    <template if:true={showResetConfirmation}>
+
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="modal-heading"
+            class="slds-modal slds-fade-in-open">
+
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+
+                    <h2
+                        id="modal-heading"
+                        class="slds-text-heading_medium">
+
+                        Reset Dashboard?
+
+                    </h2>
+
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+
+                    <p>
+                        Are you sure you want to reset the dashboard?
+                        All currently displayed student information and
+                        application data will be cleared.
+                    </p>
+
+                </div>
+
+                <footer class="slds-modal__footer">
+
+                    <lightning-button
+                        label="Cancel"
+                        onclick={handleCancelReset}>
+                    </lightning-button>
+
+                    <lightning-button
+                        class="slds-m-left_small"
+                        label="Reset"
+                        variant="destructive"
+                        onclick={handleConfirmReset}>
+                    </lightning-button>
+
+                </footer>
+
+            </div>
+
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+</template>

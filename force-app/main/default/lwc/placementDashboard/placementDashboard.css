@@ -1,0 +1,339 @@
+.dashboard-container {
+    padding: 20px;
+}
+
+/* ================================
+   Student Information
+   ================================ */
+
+.student-info {
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #f3f6f9;
+}
+
+.student-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.detail-card {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.detail-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.10);
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 13px;
+    color: #706e6b;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    font-size: 17px;
+    font-weight: 700;
+    color: #181818;
+}
+
+/* ================================
+   Placement Statistics
+   ================================ */
+
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 180px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.10);
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.stat-label {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #514f4d;
+}
+
+/* Statistic Card Accents */
+
+.total-card {
+    border-top: 4px solid #0176d3;
+}
+
+.eligible-card {
+    border-top: 4px solid #2e844a;
+}
+
+.selected-card {
+    border-top: 4px solid #5867e8;
+}
+
+.rejected-card {
+    border-top: 4px solid #ba0517;
+}
+
+/* ================================
+   Placement Analytics
+   ================================ */
+
+.analytics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+    background: #f3f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 12px;
+}
+
+.analytics-item {
+    padding: 15px;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-radius: 8px;
+}
+
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #181818;
+}
+
+.analytics-header strong {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+.eligible-progress {
+    background: #2e844a;
+}
+
+.selected-progress {
+    background: #5867e8;
+}
+
+.rejected-progress {
+    background: #ba0517;
+}
+
+/* ================================
+   Job Application Details
+   ================================ */
+
+.applications-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f3f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 12px;
+}
+
+.applications-section lightning-input,
+.applications-section lightning-combobox {
+    --slds-c-input-radius-border: 6px;
+}
+
+.applications-section .slds-text-title_bold {
+    padding: 10px 12px;
+    background: #ffffff;
+    border-left: 4px solid #0176d3;
+    border-radius: 4px;
+}
+
+.applications-section lightning-datatable {
+    display: block;
+    margin-top: 5px;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+/* Pagination */
+
+.applications-section .slds-grid_align-center {
+    min-height: 55px;
+    margin-top: 0;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+
+.applications-section .slds-grid_align-center .slds-text-title_bold {
+    margin: 0;
+    padding: 0 15px;
+    background: transparent;
+    border-left: none;
+    color: #181818;
+}
+
+/* Records Per Page */
+
+.applications-section .slds-size_1-of-1.slds-medium-size_1-of-4 {
+    max-width: 250px;
+}
+
+/* No Applications State */
+
+.applications-section .slds-text-align_center {
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-radius: 8px;
+}
+
+/* ================================
+   Loading Spinner
+   ================================ */
+
+.spinner-container {
+    position: relative;
+    min-height: 150px;
+}
+
+/* ================================
+   Reset Confirmation Modal
+   ================================ */
+
+.slds-modal__container {
+    max-width: 500px;
+}
+
+.slds-modal__header {
+    border-radius: 8px 8px 0 0;
+}
+
+.slds-modal__content {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.slds-modal__footer {
+    border-radius: 0 0 8px 8px;
+}
+
+/* ================================
+   Welcome / Empty State
+   ================================ */
+
+.dashboard-container > .slds-text-align_center {
+    margin-top: 30px;
+    padding: 50px 25px;
+    background: #f3f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 12px;
+}
+
+.dashboard-container > .slds-text-align_center h2 {
+    font-weight: 700;
+    color: #181818;
+}
+
+.dashboard-container > .slds-text-align_center p {
+    max-width: 650px;
+    margin-right: auto;
+    margin-left: auto;
+    color: #514f4d;
+    line-height: 1.6;
+}
+
+/* ================================
+   Responsive Design
+   ================================ */
+
+@media screen and (max-width: 768px) {
+
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .student-details,
+    .stats-container {
+        flex-direction: column;
+    }
+
+    .detail-card,
+    .stat-card {
+        width: 100%;
+    }
+
+    .analytics-container {
+        padding: 12px;
+    }
+
+    .analytics-item {
+        padding: 12px;
+    }
+
+    .applications-section {
+        padding: 12px;
+    }
+
+    .applications-section lightning-datatable {
+        overflow-x: auto;
+    }
+
+    .applications-section .slds-grid_align-center {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
